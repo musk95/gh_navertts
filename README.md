@@ -6,7 +6,7 @@ You can refer to https://github.com/fison67/GH-Connector
 
 ## Installation
 
-* All files of this repository should be placed on `custom_components\gh_navertts` inside of `~/.homeassistant` or `~/config` folder. 
+* All files of this repository should be placed on `custom_components/gh_navertts` inside of `~/.homeassistant` or `~/config` folder. 
 
        $ cd ~/.homeassistant
        $ mkdir custom_components
