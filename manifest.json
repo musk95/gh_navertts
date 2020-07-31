@@ -1,0 +1,7 @@
+{
+    "domain": "gh_navertts",
+    "name": "GH Naver Text-to-Speech",
+    "documentation": "https://github.com/musk95/gh_navertts",
+    "requirements": [],
+    "codeowners": ["@mytoy"]
+  }
