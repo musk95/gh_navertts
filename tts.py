@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import time
 
 import async_timeout
 from urllib import parse
@@ -13,7 +14,7 @@ from homeassistant.const import (
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 
-from homeassistant.const import HTTP_OK
+from homeassistant.const import HTTP_OK, HTTP_INTERNAL_SERVER_ERROR
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 _LOGGER = logging.getLogger(__name__)
@@ -85,13 +86,19 @@ class GHNaverProvider(Provider):
         }
 
         url = "http://"+self._host+":"+str(self._port)+GH_NAVER_SPEECH_URL+parse.quote(message)
-        _LOGGER.info("URL:%s", url)
+        _LOGGER.debug("URL:%s", url)
 
         try:
-            with async_timeout.timeout(10):
+            with async_timeout.timeout(60):
                 request = await websession.get(
                     url, params=url_param
                 )
+
+                if request.status == HTTP_INTERNAL_SERVER_ERROR:
+                    time.sleep(1)
+                    request = await websession.get(
+                        url, params=url_param
+                    )
 
                 if request.status != HTTP_OK:
                     _LOGGER.error(
